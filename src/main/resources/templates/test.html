@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
 <head>
     <!-- Design by foolishdeveloper.com -->
     <title>Page-connexion</title>
@@ -8,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <!--Stylesheet-->
-    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 
     <style media="screen">
         *,
@@ -141,23 +141,21 @@
     <div class="shape"></div>
     <div class="shape"></div>
 </div>
-<form method="POST"  th:action="@{/login}">
-    <h3>CONNEXION</h3>
+<form method="POST"  th:action="@{/forgotPasswordUser}" th:object="${user}">
+    <h3>Renitialiser votre mot de passe</h3>
 
     <div th:if="${param.error}" class="alert alert-error">
         <h4> <center><span style="color:red;">Information invalid  </span></center> </h4>
     </div>
 
-    <label for="username">Username</label>
-    <input type="text" placeholder="Username Or Email" name="username" id="username">
-
+    <label for="email">Email</label>
+    <input type="text" name="email" th:value="${user.email}" id="email" required />
     <label for="password">Password</label>
-    <input type="password" placeholder="Password" name="password" id="password">
+    <input type="password" name="password" th:value="${user.password}" id="password" required />
+    <label for="password_confirm">Confirm-new-Password</label>
+    <input type="password" name="password_confirm" th:value="${user.password_confirm}" id="password_confirm" required />
 
-    <button>Log In</button>
-    <div class="social">
-        <span> <a th:href="@{/forgotPassword}">Mot de pas oublie?</a> </span>
-    </div>
+    <button>Valider</button>
 
 </form>
 </body>
