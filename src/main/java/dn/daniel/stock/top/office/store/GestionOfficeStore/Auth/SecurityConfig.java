@@ -29,9 +29,12 @@ public class SecurityConfig {
 
 
         httpSecurity.userDetailsService(this.userAuthenticationService);
-       // httpSecurity.authorizeHttpRequests(request->request.requestMatchers("/login").permitAll());
-        httpSecurity.authorizeHttpRequests(http->http.anyRequest().permitAll());
+       httpSecurity.authorizeHttpRequests(request->request.requestMatchers("/login").permitAll());
+        httpSecurity.authorizeHttpRequests(http->http.anyRequest().authenticated());
         httpSecurity.formLogin(Customizer.withDefaults());
+        httpSecurity.logout(logout->logout.invalidateHttpSession(true).deleteCookies("JSESSIONID"));
+
+
 
         return httpSecurity.build();
     }
