@@ -12,6 +12,7 @@ public interface UserServices {
 
     Users findByNameOrEmailAndPassword(String name,String email,String password);
     Users findByEmail(String email);
+    Users findByEmailForgotPassword(String email,String password,String password_confirm);
 
     List<Users> getAllClients();
     JwtToken findByToken(String token);

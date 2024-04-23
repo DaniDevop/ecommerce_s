@@ -55,6 +55,24 @@ public class UserServicesImpl implements UserServices {
     }
 
     @Override
+    public Users findByEmailForgotPassword(String email, String password,String password_confirm) {
+       if(!password.equals(password_confirm)){
+           return null;
+       }
+        Optional<Users> optionalUsers=this.usersRepository.findByEmail(email);
+        if(optionalUsers.isPresent()){
+            Users users=optionalUsers.get();
+
+                String newPassword=passwordEncoder.encode(password);
+
+                users.setPassword(newPassword);
+                return this.usersRepository.save(users);
+
+        }
+        return null;
+    }
+
+    @Override
     public List<Users> getAllClients() {
         return usersRepository.findAll();
     }
