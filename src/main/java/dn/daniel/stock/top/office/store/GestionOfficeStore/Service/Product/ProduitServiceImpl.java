@@ -1,0 +1,52 @@
+package dn.daniel.stock.top.office.store.GestionOfficeStore.Service.Product;
+
+import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Categories;
+import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Client;
+import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Produits;
+import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.CategoriesRepository;
+import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.ProduitsRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+
+@Service
+@Transactional
+public class ProduitServiceImpl implements ProduitService {
+
+
+    private ProduitsRepository produitsRepository;
+    private CategoriesRepository categoriesRepository;
+
+
+    public ProduitServiceImpl(ProduitsRepository produitsRepository, CategoriesRepository categoriesRepository) {
+        this.produitsRepository = produitsRepository;
+        this.categoriesRepository = categoriesRepository;
+    }
+
+    @Override
+    public Produits newProduits(Produits produits,Integer categorie_id) {
+        Optional<Categories> optionalCategories =categoriesRepository.findById(categorie_id);
+        if(optionalCategories.isPresent()){
+            produits.setCategories(optionalCategories.get());
+            produits.setDate_creation(LocalDate.now().toString());
+            return produitsRepository.save(produits);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Produits> getAllProduits() {
+        return produitsRepository.findAll();
+    }
+
+    @Override
+    public Produits getProductById(Integer id)  {
+        Optional<Produits> optionalProduits=produitsRepository.findById(id);
+        return optionalProduits.orElse(null);
+
+    }
+}

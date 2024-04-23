@@ -1,0 +1,115 @@
+<!DOCTYPE html><!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="~{layout/header::header}"></div>
+<title>Listes des categories</title>
+
+<body>
+
+<!-- page-wrapper Start-->
+<div class="page-wrapper">
+
+    <!-- Page Header Start-->
+    <div  class="page-main-header" th:replace="~{layout/navBar::navBar}"></div>
+    <!-- Page Header Ends -->
+
+    <!-- Page Body Start-->
+    <div class="page-body-wrapper">
+
+        <!-- Page Sidebar Start-->
+        <div th:replace="~{layout/sidebar::sidebar}"></div>
+
+        <div class="page-body">
+
+            <div th:if="${messages}">
+                <ul>
+                    <li><h5 class="btn btn-info" th:text="${messages}"></h5></li>
+                </ul>
+            </div>
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="page-header-left">
+                                <form th:action="@{/categories/addCategories}" th:method="POST">
+                                    <label for="categorie">Categorie</label>
+                                    <input type="text" name="categorie"  id="categorie" th:value="${categorie.categorie}">
+                                    <input type="submit" value="Ajouter" class="btn btn-info">
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <ol class="breadcrumb pull-right">
+
+                                <li class="breadcrumb-item active">Listes Categories</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Listes des categories</h5>
+                    </div>
+                    <table class="table" id="myTable">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Categorie</th>
+                            <th scope="col">Date-creation</th>
+                            <th scope="col">Date-update</th>
+                            <th scope="col">Details</th>
+                            <th scope="col">Supprimer</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <tr th:each="cat : ${categoriesAll}">
+                            <th scope="row" th:text="${cat.id}"></th>
+                            <th th:text="${cat.categorie}"></th>
+                            <td th:text="${cat.date_creation}"></td>
+                            <td th:text="${cat.date_update}"></td>
+                            <td><a th:href="@{/categories/detailsCategorie/{id}(id=${cat.id})}" class="btn btn-info"><i class="bi bi-eye-fill"></i></a></td>
+                            <td><a href="" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a></td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+
+        </div>
+
+        <!-- Button trigger modal -->
+
+        <div th:replace="~{layout/footer::footer}"></div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+     $('#myTable').DataTable({
+         paging: true, // Activer la pagination
+         lengthChange: true, // Permettre à l'utilisateur de changer le nombre d'éléments par page
+         searching: true, // Activer la fonction de recherche
+         ordering: true, // Activer le tri des colonnes
+         info: true, // Afficher les informations sur la pagination
+         responsive: true // Activer la vue responsive pour les tables
+     });
+ });
+
+        </script>
+
+    </div>
+</div>
+
+</body>
+</html>

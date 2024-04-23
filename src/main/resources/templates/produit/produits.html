@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="~{layout/header::header}"></div>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<title>Listes des categories</title>
+
+
+<style>
+    .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Ajustez la valeur de 15% comme vous le souhaitez */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px; /* Vous pouvez définir une largeur maximale pour le contenu */
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+.info {
+  background-color: #e7f3fe;
+  border-left: 6px solid #2196F3;
+}
+ #message {
+  margin-bottom: 15px;
+  padding: 4px 12px;
+}
+</style>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.css" />
+
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
+<body>
+
+<!-- page-wrapper Start-->
+<div class="page-wrapper">
+
+    <!-- Page Header Start-->
+    <div  class="page-main-header" th:replace="~{layout/navBar::navBar}"></div>
+    <!-- Page Header Ends -->
+
+    <!-- Page Body Start-->
+    <div class="page-body-wrapper">
+
+        <!-- Page Sidebar Start-->
+        <div th:replace="~{layout/sidebar::sidebar}"></div>
+
+        <div class="page-body">
+
+            <!-- Container-fluid starts-->
+
+
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="page-header-left">
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${messages}" class="info" id="message">
+                <p><strong>Info!</strong> <span th:text="${messages}"></span></p>
+            </div>
+
+            <button id="openModalBtn" class="btn btn-primary">Ajouter un Produit</button>
+
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Listes des Produits</h5>
+                    </div>
+                    <table class="table" id="myTable">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Categorie</th>
+                            <th scope="col">Designation</th>
+                            <th scope="col">Prix</th>
+                            <th scope="col">Stock</th>
+                            <th scope="col">Details</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <tr th:each="produit : ${produitAll}">
+                            <th scope="row" th:text="${produit.id}"></th>
+                            <td th:text="${produit.categories.categorie}"></td>
+                            <th th:text="${produit.designation}"></th>
+                            <th th:text="${produit.prix_vente}"></th>
+                            <td th:text="${produit.stock}"></td>
+                            <td><a th:href="@{/product/detailsProduit/{id}(id=${produit.id})}" class="btn btn-info"><i class="bi bi-eye-fill"></i></a></td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Button trigger modal -->
+
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h1>Formulaire Produit</h1>
+                    <form method="POST" th:action="@{/product/addProduit}" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Designation</label>
+                            <input type="text" class="form-control" name="designation" th:value="${produit.designation}" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="exampleInputPrix" class="form-label">Prix</label>
+                            <input type="number" name="prix_vente" th:value="${produit.prix_vente}" min="0" class="form-control" id="exampleInputPrix">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="exampleInputPrix" class="form-label">Stock</label>
+                            <input type="number" name="stock" th:value="${produit.stock}" min="1" class="form-control" id="exampleInputStock">
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="fournisseur" class="form-label">Fournisseur</label>
+                            <select name="fournisseur_id" id="fournisseur" class="form-select">
+                                <option th:each="user:${fournisseurAll}" th:value="${user.id}" th:text="${user.nom}"></option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="categorie" class="form-label">Categorie</label>
+                            <select name="categorie_id" id="categorie" class="form-select">
+                                <option th:each="cat:${categorieAll}" th:value="${cat.id}" th:text="${cat.categorie}"></option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!-- Button trigger modal -->
+
+        <div th:replace="~{layout/footer::footer}"></div>
+
+        <script>
+            // Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("openModalBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+        </script>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+     $('#myTable').DataTable({
+         paging: true, // Activer la pagination
+         lengthChange: true, // Permettre à l'utilisateur de changer le nombre d'éléments par page
+         searching: true, // Activer la fonction de recherche
+         ordering: true, // Activer le tri des colonnes
+         info: true, // Afficher les informations sur la pagination
+         responsive: true // Activer la vue responsive pour les tables
+     });
+ });
+
+        </script>
+
+    </div>
+</div>
+</body>
+</html>

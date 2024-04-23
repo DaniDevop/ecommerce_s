@@ -1,0 +1,97 @@
+<!DOCTYPE html><!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="~{layout/header::header}"></div>
+<title>Listes des categories</title>
+
+<body>
+
+<!-- page-wrapper Start-->
+<div class="page-wrapper">
+
+    <!-- Page Header Start-->
+    <div  class="page-main-header" th:replace="~{layout/navBar::navBar}"></div>
+    <!-- Page Header Ends -->
+
+    <!-- Page Body Start-->
+    <div class="page-body-wrapper">
+
+        <!-- Page Sidebar Start-->
+        <div th:replace="~{layout/sidebar::sidebar}"></div>
+
+        <div class="page-body">
+
+            <!-- Container-fluid starts-->
+            <div th:if="${messages}">
+                <script>
+                    alert("Categorie ajouté avec sucess");
+                </script>
+            </div>
+
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="page-header-left">
+                                <form th:action="@{/categories/updateCategorie}" th:method="POST">
+                                    <label for="categorie">Categorie</label>
+                                    <input type="text" name="categorie"  id="categorie" th:value="${categorie.categorie}">
+                                    <input type="hidden" name="id" th:value="${categorie.id}">
+                                    <input type="submit" value="Ajouter" class="btn btn-info">
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <ol class="breadcrumb pull-right">
+
+                                <li class="breadcrumb-item active">Listes Categories</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Listes des categories</h5>
+                    </div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Categorie</th>
+                            <th scope="col">Date-creation</th>
+                            <th scope="col">Date-update</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <tr >
+                            <th scope="row" th:text="${categorie.id}"></th>
+                            <th th:text="${categorie.categorie}"></th>
+                            <td th:text="${categorie.date_creation}"></td>
+                            <td th:text="${categorie.date_update}"></td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+
+        </div>
+
+        <!-- Button trigger modal -->
+
+        <div th:replace="~{layout/footer::footer}"></div>
+
+
+
+</body>
+</html>

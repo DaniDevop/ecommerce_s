@@ -1,0 +1,48 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+
+
+    <div class="page-sidebar" th:fragment="sidebar">
+        <div class="sidebar custom-scrollbar">
+            <div class="sidebar-user text-center">
+                <div><img class="img-60 rounded-circle lazyloaded blur-up" th:src="@{/images/dashboard/man.png}" alt="#">
+                </div>
+                <h6 class="mt-3 f-14">JOHN</h6>
+                <p>Ux Designer</p>
+            </div>
+              <ul class="sidebar-menu">
+                <li><a class="sidebar-header" th:href="@{/}"><i data-feather="home"></i><span>Dashboard</span></a></li>
+                <li><a class="sidebar-header" th:href="@{/product/produitAll}"><i data-feather="box"></i> <span>Listes des Produits</span><i class="fa fa-angle-right pull-right"></i></a>
+                    <ul class="sidebar-submenu">
+                        <li>
+
+                        </li>
+                        <li>
+
+                        </li>
+                    </ul>
+                </li>
+                <li><a class="sidebar-header" th:href="@{/categoies/categorieListes}"><i data-feather="dollar-sign"></i><span>Listes categories</span><i class="fa fa-angle-right pull-right"></i></a>
+                    <ul class="sidebar-submenu">
+
+                    </ul>
+                </li>
+                <li><a class="sidebar-header" th:href="@{/fournisseurs/listesFournisseur}"><i data-feather="tag"></i><span>Listes des fournisseurs</span><i class="fa fa-angle-right pull-right"></i></a>
+
+                </li>
+                  <li><a class="sidebar-header" th:href="@{/client/clientAll}"><i data-feather="dollar-sign"></i><span>Listes des commandes</span><i class="fa fa-angle-right pull-right"></i></a>
+                      <ul class="sidebar-submenu">
+
+                      </ul>
+                  </li>
+
+                    </ul>
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+    <!-- Page Sidebar Ends-->
+

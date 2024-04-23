@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="~{layout/header::header}"></div>
+<title>Listes des categories</title>
+
+
+<style>
+    .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Ajustez la valeur de 15% comme vous le souhaitez */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px; /* Vous pouvez définir une largeur maximale pour le contenu */
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+</style>
+
+<body>
+
+<!-- page-wrapper Start-->
+<div class="page-wrapper">
+
+    <!-- Page Header Start-->
+    <div  class="page-main-header" th:replace="~{layout/navBar::navBar}"></div>
+    <!-- Page Header Ends -->
+
+    <!-- Page Body Start-->
+    <div class="page-body-wrapper">
+
+        <!-- Page Sidebar Start-->
+        <div th:replace="~{layout/sidebar::sidebar}"></div>
+
+        <div class="page-body">
+
+
+
+
+
+            <div class="container-fluid">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="page-header-left">
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <ol class="breadcrumb pull-right">
+
+                                <li class="breadcrumb-item active">Listes Fournisseurs</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Container-fluid Ends-->
+
+            <!-- Container-fluid starts-->
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Listes des categories</h5>
+                    </div>
+                    <table class="table" id="myTable">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Tel</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Details</th>
+                            <th scope="col">Supprimer</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <tr th:each="user : ${fournisseurAll}">
+                            <th scope="row" th:text="${user.id}"></th>
+                            <th th:text="${user.nom}"></th>
+                            <td th:text="${user.tel}"></td>
+                            <td th:text="${user.email}"></td>
+                            <td><a th:href="@{/fournisseur/detailsFournisseur/{id}(id=${user.id})}" class="btn btn-info"><i class="bi bi-eye-fill"></i></a></td>
+                            <td><a th:href="@{/fournisseur/deleteFournisseur/{id}(id=${user.id})}" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a></td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Button trigger modal -->
+            <button id="openModalBtn" class="btn btn-primary">Ajouter un Fournisseur</button>
+
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h1>Formulaire Fournisseur</h1>
+                    <form method="POST" th:action="@{/fournisseurs/addFournisseur}">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Email address</label>
+                            <input type="email" class="form-control" name="email" th:value="${fournisseur.email}" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Nom</label>
+                            <input type="text" name="nom" th:value="${fournisseur.nom}" class="form-control" id="exampleInputPassword">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Telephone</label>
+                            <input type="text" name="tel" th:value="${fournisseur.tel}" class="form-control" id="exampleInputTel">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Adresse</label>
+                            <input type="text" name="adresse" th:value="${fournisseur.adresse}" class="form-control" id="exampleInputPassword1">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- Button trigger modal -->
+
+        <div th:replace="~{layout/footer::footer}"></div>
+
+        <script>
+            // Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("openModalBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+     $('#myTable').DataTable({
+         paging: true, // Activer la pagination
+         lengthChange: true, // Permettre à l'utilisateur de changer le nombre d'éléments par page
+         searching: true, // Activer la fonction de recherche
+         ordering: true, // Activer le tri des colonnes
+         info: true, // Afficher les informations sur la pagination
+         responsive: true // Activer la vue responsive pour les tables
+     });
+ });
+
+        </script>
+
+
+    </div>
+</div>
+</body>
+</html>
