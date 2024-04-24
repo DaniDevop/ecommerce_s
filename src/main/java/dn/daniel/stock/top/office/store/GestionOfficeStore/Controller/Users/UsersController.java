@@ -68,6 +68,24 @@ public class UsersController {
     }
 
 
+    @GetMapping("/addUsers")
+    public String addUserCompte(Model model){
+        UserData user= new UserData();
+        model.addAttribute("user",user);
+        return "/admin/addUser";}
+
+    @PostMapping("/registerUser")
+    public String registerUsers(Model model,UserData user,RedirectAttributes attributes){
+        Users users=this.userServices.findByEmail(user.getEmail());
+        if(users !=null){
+            attributes.addFlashAttribute("errorEmail","L email existe déjà dans la base de donées");
+            return  "redirect:/addUsers";
+        }
+        Users users1=new Users(user.getUsername(),user.getEmail(),user.getPassword());
+        this.userServices.newUser(users1);
+        attributes.addFlashAttribute("succesRegister","Compte utilisateur crée avec succès !");
+        return  "redirect:/addUsers";
+    }
 
 
 

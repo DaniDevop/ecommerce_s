@@ -28,15 +28,7 @@ public class UserServicesImpl implements UserServices {
     @Override
     public Users newUser(Users users) {
         String password=passwordEncoder.encode(users.getPassword());
-        String token= "Barrer "+passwordEncoder.encode(users.getName()+users.getEmail());
         users.setPassword(password);
-
-        if (token.length() > 255) {
-            token = token.substring(0, 255);
-        }
-
-        JwtToken jwtToken =new JwtToken(token, LocalDate.now().toString(),LocalDate.now().toString(),users);
-        jwtRepository.save(jwtToken);
         return usersRepository.save(users);
     }
 
