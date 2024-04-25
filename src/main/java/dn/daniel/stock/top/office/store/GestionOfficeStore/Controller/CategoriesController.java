@@ -43,13 +43,14 @@ public class CategoriesController {
 
         Optional<Categories> optionalCategories=this.categoriesRepository.findByCategorie(categories.getCategorie());
         if(optionalCategories.isPresent()){
-            redirectAttributes.addFlashAttribute("messages", "Categories existe déjà dans la base de données");
+            redirectAttributes.addFlashAttribute("erroraddCategories", "Categories existe déjà dans la base de données");
 
 
             return "redirect:/categoies/categorieListes";
         }
+        categories.setDate_update(LocalDate.now().toString());
         this.categorieService.newCategories(categories);
-        redirectAttributes.addFlashAttribute("messages", "Categories ajouté avec succèss");
+        redirectAttributes.addFlashAttribute("addCategoriesSuccess", "Categories ajouté avec succèss");
 
 
         return "redirect:/categoies/categorieListes";
@@ -60,9 +61,11 @@ public class CategoriesController {
         if(optionalCategories.isPresent()){
             Categories categories=optionalCategories.get();
             model.addAttribute("categorie",categories);
+            redirectAttributes.addFlashAttribute("updateCategories", "Une erreur c'est produite");
+
             return "categorie/detail";
         }
-        redirectAttributes.addFlashAttribute("messages", "La catégorie n'existe pas dans la base !");
+        redirectAttributes.addFlashAttribute("errorCategories", "Une erreur c'est produite");
 
         return null;
     }
@@ -72,21 +75,22 @@ public class CategoriesController {
         if(optionalCategories.isPresent()){
             Categories categories=optionalCategories.get();
             categoriesRepository.delete(categories);
-            redirectAttributes.addFlashAttribute("messages", "La catégorie est supprimé avec success !");
+            redirectAttributes.addFlashAttribute("deleteCategorie", "La catégorie est supprimé avec success !");
             return "redirect:/categoies/categorieListes";
         }
 
         return null;
     }
     @PostMapping("/categories/updateCategorie")
-    public String updateCategorie(@RequestBody Categories categorie, @RequestParam("id") Integer id, RedirectAttributes redirectAttributes){
+    public String updateCategorie(Model model,Categories categorie, @RequestParam("id") Integer id, RedirectAttributes redirectAttributes){
         Optional<Categories> optionalCategories=categoriesRepository.findById(id);
         if(optionalCategories.isPresent()){
           categorieService.updateCategories(categorie);
-            redirectAttributes.addFlashAttribute("messages", "Mise a jour effectué avec success !!");
+            redirectAttributes.addFlashAttribute("updateCategories", "Categories mise à jour avec succèss");
             return "redirect:/categories/detailsCategorie/  "+id;
         }
-        return null;
+        redirectAttributes.addFlashAttribute("updateCategories", "Une erreur c'est produite");
+        return "redirect:/categories/detailsCategorie/  "+id;
     }
 
 

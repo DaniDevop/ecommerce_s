@@ -43,12 +43,12 @@ public class FournisseursController {
 
        Optional<Fournisseurs>optionalFournisseurs=this.fournisseursRespository.findByNomOrEmail(fournisseurs.getNom(),fournisseurs.getEmail());
        if(optionalFournisseurs.isPresent()){
-           redirectAttributes.addFlashAttribute("messages", "L email ou le numéro de téléphone déjà existant");
+           redirectAttributes.addFlashAttribute("errorFournisseur", "L email ou le numéro de téléphone déjà existant");
            return "redirect:/fournisseurs/listesFournisseur";
 
        }
         stockService.addFounisseurs(fournisseurs);
-        redirectAttributes.addFlashAttribute("messages", "Fournisseur a été créée avec succès!");
+        redirectAttributes.addFlashAttribute("addFournisseur", "Fournisseur a été créée avec succès!");
         return "redirect:/fournisseurs/listesFournisseur";
     }
 
@@ -76,7 +76,7 @@ public class FournisseursController {
             fournisseur.setEmail(fournisseurs.getEmail());
             fournisseur.setAdresse(fournisseurs.getAdresse());
             stockService.addFounisseurs(fournisseurs);
-            redirectAttributes.addFlashAttribute("messages", "Mise à jour a été éffectué avec succès!");
+            redirectAttributes.addFlashAttribute("succesFournisseur", "Mise à jour a été éffectué avec succès!");
             return "redirect:/fournisseur/detailsFournisseur/" + fournisseurs.getId();
         }
         return null;
@@ -88,7 +88,7 @@ public class FournisseursController {
         if(optionalFournisseurs.isPresent()) {
             Fournisseurs fournisseurs=optionalFournisseurs.get();
             this.fournisseursRespository.delete(fournisseurs);
-            redirectAttributes.addFlashAttribute("messages", "Fournisseur a été créée avec succès!");
+            redirectAttributes.addFlashAttribute("deleteFournisseur", "Fournisseur supprimé avec succès!");
             return "redirect:/fournisseurs/listesFournisseur";
         }
         return null;

@@ -55,7 +55,7 @@ public class ProduitsController {
         this.produitService.newProduits(produits,categorie_id);
 
         applicationService.addFournisseursToProduits(fournisseur_id, produits.getId());
-        redirectAttributes.addFlashAttribute("messages", "Produit a été crée avec success!");
+        redirectAttributes.addFlashAttribute("addProductSuccess", "Produit a été crée avec success !");
         return "redirect:/product/produitAll";
     }
 
@@ -95,7 +95,7 @@ public class ProduitsController {
             applicationService.addCategoriesToProduct(categorie_id,produit.getId());
             applicationService.addFournisseursToProduits(fournisseur_id, produit.getId());
 
-            redirectAttributes.addFlashAttribute("messages", "Produit Modififer avec success");
+            redirectAttributes.addFlashAttribute("updateProductSucces", "Produit Modififer avec success");
             return "redirect:/product/detailsProduit/"+produit.getId();
         }
 

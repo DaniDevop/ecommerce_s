@@ -85,10 +85,30 @@
             <!-- Container-fluid Ends-->
 
             <!-- Container-fluid starts-->
+            <div class="container" th:if="${addFournisseur}">
+                <h2>Info</h2>
+                <div class="alert alert-success">
+                    <strong>Success!</strong> <span >Fournisseur ajouté avec succès 🎉</span>
+                </div>
+            </div>
+
+            <div class="container" th:if="${errorFournisseur}">
+                <h2>Error</h2>
+                <div class="alert alert-warning">
+                    <strong>Success!</strong> <span >Oups 😅 une erreur c'est produite ou donnée invalide</span>
+                </div>
+            </div>
+
+            <div class="container" th:if="${deleteFournisseur}">
+                <h2>Error</h2>
+                <div class="alert alert-danger">
+                    <strong>Success!</strong> <span >Fournisseur supprimé avec succès 🎉</span>
+                </div>
+            </div>
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Listes des categories</h5>
+                        <h5>Listes des Fournisseurs</h5>
                     </div>
                     <table class="table" id="myTable">
                         <thead>

@@ -22,11 +22,12 @@
         <div class="page-body">
 
             <!-- Container-fluid starts-->
-            <div th:if="${messages}">
-                <script>
-                    alert("Categorie ajouté avec sucess");
-                </script>
-            </div>
+            <div >
+
+
+
+
+            <div >
 
             <div class="container-fluid">
                 <div class="page-header">
@@ -39,6 +40,13 @@
                                     <input type="hidden" name="id" th:value="${categorie.id}">
                                     <input type="submit" value="Ajouter" class="btn btn-info">
                                 </form>
+                            </div>
+                        </div>
+
+                        <div class="content" th:if="${updateCategories}">
+                            <h2>Info</h2>
+                            <div class="alert alert-success">
+                                <strong>Success!</strong> <span >Categorie mise à jour avec succèss</span>
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -88,6 +96,11 @@
         </div>
 
         <!-- Button trigger modal -->
+
+            </div>
+        </div>
+    </div>
+</div>
 
         <div th:replace="~{layout/footer::footer}"></div>
 

@@ -21,11 +21,8 @@
 
         <div class="page-body">
 
-            <div th:if="${messages}">
-                <ul>
-                    <li><h5 class="btn btn-info" th:text="${messages}"></h5></li>
-                </ul>
-            </div>
+            <div >
+
             <div class="container-fluid">
                 <div class="page-header">
                     <div class="row">
@@ -50,6 +47,18 @@
             <!-- Container-fluid Ends-->
 
             <!-- Container-fluid starts-->
+                <div class="container" th:if="${erroraddCategories}">
+                    <h2>Error </h2>
+                    <div class="alert alert-warning">
+                        <strong>Success!</strong> <span >La categorie existe déjà dans la base de données</span>
+                    </div>
+                </div>
+                <div class="container" th:if="${addCategoriesSuccess}">
+                    <h2>Info 🎉</h2>
+                    <div class="alert alert-info">
+                        <strong>Success!</strong> <span>Categorie ajouté avec succès</span>
+                    </div>
+                </div>
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header">
@@ -110,6 +119,6 @@
 
     </div>
 </div>
-
+</div>
 </body>
 </html>
