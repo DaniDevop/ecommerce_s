@@ -35,8 +35,7 @@ public class Produits {
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.DETACH)
     private Collection<Ventes>ventes=new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.DETACH)
-    private Collection<ImageProduct>imageProducts =new ArrayList<>();
+
 
     public Integer getStock() {
         return stock;
@@ -125,13 +124,6 @@ public class Produits {
         this.prix_vente = prix_vente;
     }
 
-    public Collection<ImageProduct> getImageProducts() {
-        return imageProducts;
-    }
-
-    public void setImageProducts(Collection<ImageProduct> imageProducts) {
-        this.imageProducts = imageProducts;
-    }
 
     public String getImage_first() {
         return image_first;

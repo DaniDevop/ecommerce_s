@@ -16,4 +16,7 @@ public interface ProduitService {
     Produits getProductById(Integer id);
 
 
+    Produits updateProduit(Integer categorie_id,Integer fournisser_id,Produits produits);
+
+
 }

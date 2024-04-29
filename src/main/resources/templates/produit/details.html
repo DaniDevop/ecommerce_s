@@ -21,11 +21,11 @@
 
   .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* Ajustez la valeur de 15% comme vous le souhaitez */
+    margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 500px; /* Vous pouvez définir une largeur maximale pour le contenu */
+    max-width: 500px;
   }
 
   .close {
@@ -113,25 +113,30 @@
                             <th scope="col">Designation</th>
                             <th scope="col">Prix_vente</th>
                             <th scope="col">Stock</th>
-                            <th scope="col">Fournisseurs</th>
+                            <th scope="col">Profile 1</th>
+                            <th scope="col">Profile 2</th>
+                            <th scope="col">Profile 3</th>
 
 
                         </tr>
                         </thead>
                         <tbody>
 
-
                         <tr>
                             <td th:text="${produit.categories.categorie}"></td>
                             <td th:text="${produit.designation}"></td>
                             <th th:text="${produit.prix_vente}"></th>
-                            <td th:text="${produit.stock}"></td>
-                            <td th:text="${produit.fournisseurs.nom}"></td>
-
-
+                            <td  th:text="${produit.stock <-1}" ></td>
+                            <td>
+                                <img th:if="${produit.image_first != null}" th:src="@{'/product/' + ${produit.image_first}}" alt="Image du produit 1" width="100px">
+                            </td>
+                            <td>
+                                <img th:if="${produit.image_second != null}" th:src="@{'/product/' + ${produit.image_second}}" alt="Image du produit 2" width="100px">
+                            </td>
+                            <td>
+                                <img th:if="${produit.image_third != null}" th:src="@{'/product/' + ${produit.image_third}}" alt="Image du produit 3" width="100px">
+                            </td>
                         </tr>
-
-
                         </tbody>
                     </table>
                 </div>
@@ -143,7 +148,7 @@
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <h1>Formulaire Produit</h1>
+                    <h1>Formulaire Modification du Produit</h1>
                     <form method="POST" th:action="@{/product/updateProduits}" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Designation</label>
@@ -174,6 +179,18 @@
                                 <option th:value="${produit.categories.id}" th:text="${produit.categories.categorie}"></option>
                                 <option th:each="cat:${categorieAll}" th:value="${cat.id}" th:text="${cat.categorie}"></option>
                             </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputStock" class="form-label">Image 1</label>
+                            <input type="file" name="productImageFirst"  th:value="${productImage.productImageFirst}"  accept="image/*" class="form-control" id="exampleInputStoc">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputStock" class="form-label">Image 2</label>
+                            <input type="file" name="productImageSecond" th:value="${productImage.productImageSecond}"  accept="image/*"   class="form-control" id="exampleInputSto">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputStock" class="form-label">Image 3</label>
+                            <input type="file" name="productImageThird" th:value="${productImage.productImageThird}"  class="form-control"  accept="image/*" id="exampleInputStocks">
                         </div>
                         <input type="hidden" name="id" th:value="${produit.id}">
                         <button type="submit" class="btn btn-primary">Submit</button>

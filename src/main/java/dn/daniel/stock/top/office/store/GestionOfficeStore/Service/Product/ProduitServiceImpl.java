@@ -1,9 +1,10 @@
 package dn.daniel.stock.top.office.store.GestionOfficeStore.Service.Product;
 
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Categories;
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Client;
+import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Fournisseurs;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Produits;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.CategoriesRepository;
+import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.FournisseursRespository;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.ProduitsRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,16 @@ public class ProduitServiceImpl implements ProduitService {
 
     private ProduitsRepository produitsRepository;
     private CategoriesRepository categoriesRepository;
+    private  FournisseursRespository fournisseursRespository;
 
 
-    public ProduitServiceImpl(ProduitsRepository produitsRepository, CategoriesRepository categoriesRepository) {
+    public ProduitServiceImpl(ProduitsRepository produitsRepository,
+                              CategoriesRepository categoriesRepository,
+
+                              FournisseursRespository fournisseursRespository) {
         this.produitsRepository = produitsRepository;
         this.categoriesRepository = categoriesRepository;
+        this.fournisseursRespository = fournisseursRespository;
     }
 
     @Override
@@ -48,5 +54,33 @@ public class ProduitServiceImpl implements ProduitService {
         Optional<Produits> optionalProduits=produitsRepository.findById(id);
         return optionalProduits.orElse(null);
 
+    }
+
+
+
+    @Override
+    public Produits updateProduit(Integer categorie_id, Integer fournisser_id, Produits produits) {
+        Optional<Categories> optionalCategories =categoriesRepository.findById(categorie_id);
+        Optional<Produits> optionalProduits =this.produitsRepository.findById(produits.getId());
+        Optional<Fournisseurs> optionalFournisseurs =this.fournisseursRespository.findById(fournisser_id);
+
+        if(optionalCategories.isPresent() && optionalFournisseurs.isPresent() && optionalProduits.isPresent()){
+            produits.setCategories(optionalCategories.get());
+
+            produits.setFournisseurs(optionalFournisseurs.get());
+
+            Produits product = optionalProduits.get();
+            product.setFournisseurs(optionalFournisseurs.get());
+            product.setDate_update(LocalDate.now().toString());
+            product.setStock(produits.getStock());
+            product.setPrix_vente(produits.getPrix_vente());
+            product.setDesignation(produits.getDesignation());
+            product.setCategories(optionalCategories.get());
+            product.setImage_third(produits.getImage_third());
+            product.setImage_second(produits.getImage_second());
+            product.setImage_first(produits.getImage_first());
+            return produitsRepository.save(produits);
+        }
+        return null;
     }
 }

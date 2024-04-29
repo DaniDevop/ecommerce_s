@@ -1,5 +1,6 @@
 package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller;
 
+import dn.daniel.stock.top.office.store.GestionOfficeStore.Controller.Helpers.ProductForm;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Produits;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.ProduitsRepository;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Service.Product.ProduitServiceImpl;
@@ -21,6 +22,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Controller
 public class ProduitsController {
@@ -29,11 +31,11 @@ public class ProduitsController {
     private final StockServiceImpl applicationService;
     private ProduitsRepository produitsRepository;
     private  ProduitServiceImpl produitService;
-    public ProduitsController(StockServiceImpl applicationService,ProduitServiceImpl produitService ,ProduitsRepository produitsRepository) {
+
+    public ProduitsController(StockServiceImpl applicationService, ProduitServiceImpl produitService , ProduitsRepository produitsRepository) {
         this.applicationService = applicationService;
         this.produitsRepository= produitsRepository;
         this.produitService=produitService;
-
     }
 
             @GetMapping("/product/produitAll")
@@ -48,7 +50,8 @@ public class ProduitsController {
 
     @PostMapping("/product/addProduit")
 
-    public String addProduit(Model model, Produits produits,@RequestParam("categorie_id")Integer categorie_id,
+    public String addProduit(Model model, Produits produits,
+                                @RequestParam("categorie_id")Integer categorie_id,
                                      @RequestParam("fournisseur_id") Integer fournisseur_id,
                              RedirectAttributes redirectAttributes){
 
@@ -66,7 +69,9 @@ public class ProduitsController {
         Optional<Produits> optionalProduits=produitsRepository.findById(id);
         if(optionalProduits.isPresent()){
             Produits produits=optionalProduits.get();
+
             model.addAttribute("produit",produits);
+            model.addAttribute("productImage",new ProductForm());
             model.addAttribute("categorieAll",applicationService.getAllCategories());
             model.addAttribute("fournisseurAll",applicationService.getAllFournisseurs());
             return "produit/details";
@@ -79,24 +84,35 @@ public class ProduitsController {
     @PostMapping("/product/updateProduits")
     public String updateProduit(Model model, Produits produits,
                                 @RequestParam("id")Integer id,
+                                 ProductForm productForm,
                                 @RequestParam("categorie_id")Integer categorie_id,
                                 @RequestParam("fournisseur_id")Integer fournisseur_id,
-                                RedirectAttributes redirectAttributes)  {
+                                RedirectAttributes redirectAttributes) throws IOException  {
         Optional<Produits> optionalProduits=produitsRepository.findById(id);
         if(optionalProduits.isPresent()){
+            Produits product = optionalProduits.get();
 
-            Produits produit=optionalProduits.get();
 
-            produit.setDesignation(produits.getDesignation());
-            produit.setStock(produits.getStock());
-            produit.setPrix_vente(produits.getPrix_vente());
-            produit.setDate_update(LocalDate.now().toString());
+         if(productForm.getProductImageFirst() !=null &&  !productForm.getProductImageFirst().isEmpty()){
+             handleProductImage(productForm.getProductImageFirst());
+             product.setImage_first(productForm.getProductImageFirst().getOriginalFilename());
+             System.out.println("Image one upload with success");
 
-            applicationService.addCategoriesToProduct(categorie_id,produit.getId());
-            applicationService.addFournisseursToProduits(fournisseur_id, produit.getId());
 
+         }if ( productForm.getProductImageSecond() !=null && !productForm.getProductImageSecond().isEmpty()){
+                handleProductImage(productForm.getProductImageSecond());
+                product.setImage_second(productForm.getProductImageSecond().getOriginalFilename());
+                System.out.println("Image two upload with success");
+
+            }
+            if ( productForm.getProductImageThird() !=null && !productForm.getProductImageThird().isEmpty()) {
+                handleProductImage(productForm.getProductImageThird());
+                product.setImage_third(productForm.getProductImageThird().getOriginalFilename());
+                System.out.println("Image third upload with success");
+            }
+            this.produitService.updateProduit(categorie_id,fournisseur_id,product);
             redirectAttributes.addFlashAttribute("updateProductSucces", "Produit Modififer avec success");
-            return "redirect:/product/detailsProduit/"+produit.getId();
+            return "redirect:/product/detailsProduit/"+produits.getId();
         }
 
         return null;
@@ -106,8 +122,10 @@ public class ProduitsController {
     }
 
 
-
-
+    private String handleProductImage(MultipartFile file) throws IOException {
+            file.transferTo(new File("C:\\Users\\mabod\\Desktop\\Daniel\\Daniel\\GestionOfficeStore\\GestionOfficeStore\\src\\main\\resources\\static\\product\\" + file.getOriginalFilename()));
+            return file.getOriginalFilename();
+    }
 
 
 }
