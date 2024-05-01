@@ -1,4 +1,4 @@
-package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller;
+package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller.client;
 
 
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.ClientRepository;

@@ -1,4 +1,4 @@
-package dn.daniel.stock.top.office.store.GestionOfficeStore.Auth;
+package dn.daniel.stock.top.office.store.GestionOfficeStore.configuration.Auth;
 
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Users;
 import org.springframework.security.core.GrantedAuthority;

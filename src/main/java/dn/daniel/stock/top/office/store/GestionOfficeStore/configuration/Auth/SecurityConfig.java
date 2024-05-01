@@ -1,15 +1,12 @@
-package dn.daniel.stock.top.office.store.GestionOfficeStore.Auth;;
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Auth.Services.UserAuthenticationService;
+package dn.daniel.stock.top.office.store.GestionOfficeStore.configuration.Auth;;
+import dn.daniel.stock.top.office.store.GestionOfficeStore.configuration.Services.UserAuthenticationService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.lang.reflect.Method;
 
 @Configuration
 @EnableWebSecurity
@@ -31,7 +28,7 @@ public class SecurityConfig {
 
         httpSecurity.userDetailsService(this.userAuthenticationService);
 
-        httpSecurity.authorizeHttpRequests(http->http.requestMatchers("/login","/forgotPassword", "/forgotPasswordUser").permitAll().anyRequest().authenticated());
+        httpSecurity.authorizeHttpRequests(http->http.requestMatchers("/login","/forgotPassword", "/forgotPasswordUser","/api/client/**").permitAll().anyRequest().authenticated());
         httpSecurity.formLogin(login->login.loginPage("/login").permitAll());
         httpSecurity.logout(
                 logout->logout.invalidateHttpSession(true)

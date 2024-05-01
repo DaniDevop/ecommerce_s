@@ -1,6 +1,6 @@
-package dn.daniel.stock.top.office.store.GestionOfficeStore.Auth.Services;
+package dn.daniel.stock.top.office.store.GestionOfficeStore.configuration.Services;
 
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Auth.SecurityUser;
+import dn.daniel.stock.top.office.store.GestionOfficeStore.configuration.Auth.SecurityUser;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.UsersRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

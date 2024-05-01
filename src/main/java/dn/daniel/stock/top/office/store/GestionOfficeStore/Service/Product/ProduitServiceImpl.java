@@ -72,14 +72,8 @@ public class ProduitServiceImpl implements ProduitService {
             Produits product = optionalProduits.get();
             product.setFournisseurs(optionalFournisseurs.get());
             product.setDate_update(LocalDate.now().toString());
-            product.setStock(produits.getStock());
-            product.setPrix_vente(produits.getPrix_vente());
-            product.setDesignation(produits.getDesignation());
             product.setCategories(optionalCategories.get());
-            product.setImage_third(produits.getImage_third());
-            product.setImage_second(produits.getImage_second());
-            product.setImage_first(produits.getImage_first());
-            return produitsRepository.save(produits);
+            return produitsRepository.save(product);
         }
         return null;
     }

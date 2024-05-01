@@ -1,4 +1,4 @@
-package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller;
+package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller.produit;
 
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Controller.Helpers.ProductForm;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Produits;
@@ -16,11 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -123,8 +118,17 @@ public class ProduitsController {
 
 
     private String handleProductImage(MultipartFile file) throws IOException {
+
+
+        try {
             file.transferTo(new File("C:\\Users\\mabod\\Desktop\\Daniel\\Daniel\\GestionOfficeStore\\GestionOfficeStore\\src\\main\\resources\\static\\product\\" + file.getOriginalFilename()));
             return file.getOriginalFilename();
+        } catch (IOException e) {
+            // Gérer l'exception (par exemple, journaliser l'erreur, afficher un message d'erreur à l'utilisateur)
+            System.err.println("Erreur lors du traitement de l'image : " + e.getMessage());
+            // Vous pouvez également lancer une exception personnalisée ou retourner un message d'erreur
+            throw new RuntimeException("Erreur lors du traitement de l'image");
+        }
     }
 
 

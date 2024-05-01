@@ -1,4 +1,4 @@
-package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller;
+package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller.Fournisseur;
 
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Fournisseurs;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.FournisseursRespository;
@@ -31,8 +31,6 @@ public class FournisseursController {
         model.addAttribute("fournisseurAll",stockService.getAllFournisseurs());
         model.addAttribute("fournisseur",new Fournisseurs());
         model.addAttribute("fournisseurNumber",this.fournisseursRespository.count());
-
-
         return "fournisseur/listes";
     }
 

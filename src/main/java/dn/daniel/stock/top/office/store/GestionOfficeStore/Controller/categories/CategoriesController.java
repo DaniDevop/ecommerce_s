@@ -1,4 +1,4 @@
-package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller;
+package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller.categories;
 
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Categories;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.CategoriesRepository;

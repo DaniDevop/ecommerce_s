@@ -2,6 +2,7 @@ package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller.RestContr
 
 
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Client;
+import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.ProduitsRepository;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Service.Client.ClientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,11 @@ public class ClientControllerBack {
 
 
     private final  ClientService clientService;
+    private final ProduitsRepository produitsRepository;
 
-    public ClientControllerBack(ClientService clientService) {
+    public ClientControllerBack(ClientService clientService, ProduitsRepository produitsRepository) {
         this.clientService = clientService;
+        this.produitsRepository = produitsRepository;
     }
 
 
@@ -32,6 +35,15 @@ public class ClientControllerBack {
         response.put("data",clientService.getAllClients());
         return response;
     }
+
+    @GetMapping("/productAll")
+    @ResponseStatus(HttpStatus.OK)
+    public HashMap<String,Object> getAllProduits(){
+        HashMap<String,Object> response=new HashMap<>();
+        response.put("produits",this.produitsRepository.findAll());
+        return response;
+    }
+
 
 
     @PostMapping("/addClient")

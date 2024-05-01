@@ -1,57 +1,61 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-
-
-
-    <div class="page-sidebar" th:fragment="sidebar">
-        <div class="sidebar custom-scrollbar">
-            <div class="sidebar-user text-center">
-                <div><img class="img-60 rounded-circle lazyloaded blur-up" th:src="@{/images/dashboard/man.png}" alt="#">
-                </div>
-                <h6 class="mt-3 f-14">
-                    Authenticated username: <br>
-                </h6>
-                <p>Ux Designer</p>
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <!-- Inclure les liens vers les bibliothèques des icônes -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<div class="page-sidebar" th:fragment="sidebar">
+    <div class="sidebar custom-scrollbar">
+        <div class="sidebar-user text-center">
+            <div><img class="img-60 rounded-circle lazyloaded blur-up" th:src="@{/images/layout-2/logo/logoB.ico}" alt="#">
             </div>
-              <ul class="sidebar-menu">
-                <li><a class="sidebar-header" th:href="@{/}"><i data-feather="home"></i><span>Dashboard</span></a></li>
-                <li><a class="sidebar-header" th:href="@{/product/produitAll}"><i data-feather="box"></i> <span>Listes des Produits</span><i class="fa fa-angle-right pull-right"></i></a>
-                    <ul class="sidebar-submenu">
-                        <li>
+            <h6 class="mt-3 f-14">
 
-                        </li>
-                        <li>
-
-                        </li>
-                    </ul>
-                </li>
-                <li><a class="sidebar-header" th:href="@{/categoies/categorieListes}"><i data-feather="dollar-sign"></i><span>Listes categories</span><i class="fa fa-angle-right pull-right"></i></a>
-                    <ul class="sidebar-submenu">
-
-                    </ul>
-                </li>
-                <li><a class="sidebar-header" th:href="@{/fournisseurs/listesFournisseur}"><i data-feather="tag"></i><span>Listes des fournisseurs</span><i class="fa fa-angle-right pull-right"></i></a>
-
-                </li>
-                  <li><a class="sidebar-header" th:href="@{/client/clientAll}"><i data-feather="dollar-sign"></i><span>Listes des commandes</span><i class="fa fa-angle-right pull-right"></i></a>
-                      <ul class="sidebar-submenu">
-
-                      </ul>
-                  </li>
-
-                  <li><a class="sidebar-header" th:href="@{/addUsers}"><i data-feather="dollar-sign"></i><span>Creation compte</span><i class="fa fa-angle-right pull-right"></i></a>
-                      <ul class="sidebar-submenu">
-
-                      </ul>
-                  </li>
-
-                    </ul>
-                </li>
-
-
-            </ul>
+            </h6>
+            <p>Ux Designer</p>
         </div>
-    </div>
-    <!-- Page Sidebar Ends-->
+        <ul class="sidebar-menu">
+            <li><a class="sidebar-header" th:href="@{/}"><span>Dashboard</span></a></li>
+            <li><a class="sidebar-header" th:href="@{/product/produitAll}">  <span>Listes des Produits</span>
+                <ul class="sidebar-submenu">
+                    <li>
 
+                    </li>
+                    <li>
+
+                    </li>
+                </ul>
+            </li>
+            <li><a class="sidebar-header" th:href="@{/categoies/categorieListes}"><span>Listes categories</span><</a>
+                <ul class="sidebar-submenu">
+
+                </ul>
+            </li>
+            <li><a class="sidebar-header" th:href="@{/fournisseurs/listesFournisseur}"><span>Listes des fournisseurs</span></a>
+
+            </li>
+            <li><a class="sidebar-header" th:href="@{/client/clientAll}"></i><span>Listes des commandes</span></a>
+                <ul class="sidebar-submenu">
+
+                </ul>
+            </li>
+
+            <li><a class="sidebar-header" th:href="@{/addUsers}"><span>Creation compte</span></a>
+                <ul class="sidebar-submenu">
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- Page Sidebar Ends-->
+
+<!-- Inclure les scripts pour Feather Icons et FontAwesome -->
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+<script>
+    feather.replace(); // Initialiser Feather Icons
+</script>
+</body>
+</html>
