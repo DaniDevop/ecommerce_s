@@ -1,3 +1,12 @@
+<style>
+    .logo-img {
+    width: 100px; /* Définissez la largeur souhaitée pour votre logo */
+    height: auto; /* Garantit que la hauteur s'ajuste proportionnellement à la largeur */
+    max-width: 100%; /* Empêche le débordement si la largeur devient trop grande */
+}
+
+</style>
+
     <html xmlns:th="http://www.thymeleaf.org">
 
 
@@ -6,7 +15,7 @@
 
     <div class="page-main-header" th:fragment="navBar">
         <div class="main-header-left">
-            <div class="logo-wrapper"><a href=""><img class="blur-up lazyloaded"   th:src="@{/images/layout-2/logo/logoB.ico}"  width="100px" alt=""></a></div>
+
         </div>
         <div class="main-header-right ">
             <div class="mobile-sidebar">
@@ -97,7 +106,7 @@
                     </li>
                     <li><a href="javascript:void(0)"><i class="right_side_toggle" data-feather="message-square"></i><span class="dot"></span></a></li>
                     <li class="onhover-dropdown">
-                        <div class="media align-items-center"><img class="align-self-center pull-right img-50 rounded-circle blur-up lazyloaded" th:src="@{/images/dashboard/man.png}" alt="header-user">
+                        <div class="media align-items-center"><img class="align-self-center pull-right img-50 rounded-circle blur-up lazyloaded" th:src="@{/images/layout-2/logo/logoB.ico}" alt="header-user">
                             <div class="dotted-animation"><span class="animate-circle"></span><span class="main-circle"></span></div>
                         </div>
                         <ul class="profile-dropdown onhover-show-div p-20 profile-dropdown-hover">

@@ -28,7 +28,7 @@ public class SecurityConfig {
 
         httpSecurity.userDetailsService(this.userAuthenticationService);
 
-        httpSecurity.authorizeHttpRequests(http->http.requestMatchers("/login","/forgotPassword", "/forgotPasswordUser","/api/client/**").permitAll().anyRequest().authenticated());
+        httpSecurity.authorizeHttpRequests(http->http.anyRequest().permitAll()  );
         httpSecurity.formLogin(login->login.loginPage("/login").permitAll());
         httpSecurity.logout(
                 logout->logout.invalidateHttpSession(true)

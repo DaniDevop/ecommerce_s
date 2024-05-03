@@ -129,9 +129,10 @@
                             <td th:text="${produit.categories.categorie}"></td>
                             <th th:text="${produit.designation}"></th>
                             <th th:text="${produit.prix_vente}"></th>
-                            <td th:text="${produit.stock}"></td>
+                            <th th:text="${produit.stock}"></th>
                             <td><a th:href="@{/product/detailsProduit/{id}(id=${produit.id})}" class="btn btn-info"><i class="bi bi-eye-fill"></i></a></td>
                         </tr>
+
 
 
                         </tbody>
