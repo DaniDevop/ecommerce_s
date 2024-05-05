@@ -35,10 +35,14 @@
                         <div class="col-lg-6">
                             <div class="page-header-left">
                                 <form th:action="@{/categories/updateCategorie}" th:method="POST">
-                                    <label for="categorie">Categorie</label>
-                                    <input type="text" name="categorie"  id="categorie" th:value="${categorie.categorie}">
+
+                                    <div class="col-md-4">
+                                        <label for="validationDefault01" class="form-label">Categories</label>
+                                        <input type="text" class="form-control" id="validationDefault01" name="categorie" th:value="${categorie.categorie}" required>
+                                    </div>
                                     <input type="hidden" name="id" th:value="${categorie.id}">
-                                    <input type="submit" value="Ajouter" class="btn btn-info">
+                                    <button type="button" class="btn btn-primary">Valider</button>
+
                                 </form>
                             </div>
                         </div>

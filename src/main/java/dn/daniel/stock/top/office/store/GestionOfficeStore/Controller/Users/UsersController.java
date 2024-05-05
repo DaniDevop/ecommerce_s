@@ -1,9 +1,6 @@
 package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller.Users;
-
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Controller.RestController.Helpers.UserData;
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.JwtToken;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Users;
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.JwtRepository;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Service.Users.UserServicesImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Optional;
 
 @Controller
 public class UsersController {
@@ -31,8 +27,13 @@ public class UsersController {
 
     @GetMapping("/login")
     public String login(){
-        return "login"
-                ;
+        return "login";
+
+    }
+
+    @GetMapping("/loginTest")
+    public String loginTest(){
+        return "login/index";
     }
     @GetMapping("/logotUser")
     public String logout(HttpServletRequest request, HttpServletResponse response){
@@ -60,7 +61,7 @@ public class UsersController {
         if(users != null){
 
             attributes.addFlashAttribute("success","Informations valide mot de passe modifie");
-            return  "redirect:/forgotPassword";
+            return  "redirect:/login";
         }
         attributes.addFlashAttribute("error","user not found or information incorect");
         System.out.println(user.getEmail() + user.getPassword() + user.getPassword_confirm());

@@ -21,8 +21,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client newClient(Client client) {
+    public Client newClient(Client client){
         client.setDate_creation(LocalDate.now().toString());
+        Optional<Client> optionalClient=clientRepository.findByEmail(client.getEmail());
+        if(optionalClient.isPresent()){
+            return null;
+        }
         return clientRepository.save(client);
     }
 

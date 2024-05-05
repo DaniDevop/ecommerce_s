@@ -4,6 +4,10 @@ import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.JwtToken;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Users;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.JwtRepository;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.UsersRepository;
+import org.apache.commons.logging.Log;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +22,7 @@ public class UserServicesImpl implements UserServices {
 
     private final PasswordEncoder passwordEncoder;
 
+    Logger logger = LoggerFactory.getLogger(UserServicesImpl.class);
 
     public UserServicesImpl(UsersRepository usersRepository, JwtRepository jwtRepository, PasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
@@ -49,6 +54,7 @@ public class UserServicesImpl implements UserServices {
     @Override
     public Users findByEmailForgotPassword(String email, String password,String password_confirm) {
        if(!password.equals(password_confirm)){
+
            return null;
        }
         Optional<Users> optionalUsers=this.usersRepository.findByEmail(email);
@@ -61,6 +67,7 @@ public class UserServicesImpl implements UserServices {
                 return this.usersRepository.save(users);
 
         }
+        System.out.println("Ici c'est pas cablé 2");
         return null;
     }
 

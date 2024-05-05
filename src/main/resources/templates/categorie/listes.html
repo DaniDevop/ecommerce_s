@@ -4,6 +4,33 @@
 <div th:replace="~{layout/header::header}"></div>
 <title>Listes des categories</title>
 
+<style>
+
+  .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+  }
+  .form-group input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+  }
+  .btn-submit {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+  }
+  .btn-submit:hover {
+      background-color: #0056b3;
+  }
+</style>
 <body>
 
 <!-- page-wrapper Start-->
@@ -28,12 +55,15 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="page-header-left">
-                                <form th:action="@{/categories/addCategories}" th:method="POST">
-                                    <label for="categorie">Categorie</label>
-                                    <input type="text" name="categorie"  id="categorie" th:value="${categorie.categorie}">
-                                    <input type="submit" value="Ajouter" class="btn btn-info">
-                                </form>
-                            </div>
+
+                        <div class="container">
+                            <form id="categoryForm" th:action="@{/categories/addCategories}" th:method="POST">
+                                <div class="form-group">
+                                    <label for="categoryInput">Catégorie :</label>
+                                    <input type="text" id="categoryInput" name="categorie"  th:value="${categorie.categorie}" placeholder="Entrez la catégorie" required>
+                                </div>
+                                <button type="submit" class="btn-submit">Envoyer</button>
+                            </form>
                         </div>
                         <div class="col-lg-6">
                             <ol class="breadcrumb pull-right">
@@ -115,10 +145,19 @@
      });
  });
 
+const myHeaders = new Headers();myHeaders.append("Cookie",     "JSESSIONID=336078070BA9D1DEF30843D6D9F    9C983");
+const requestOptions = {  method: "GET",  headers: myHeaders,  redirect: "follow"};fetch("http://localhost:8080/api/client/clientAll", requestOptions)
+ .then((response) => response.text())
+  .then((result) => console.log(result))
+   .catch((error) => console.error(error));
+
+
         </script>
 
     </div>
 </div>
+</div>
+    </div>
 </div>
 </body>
 </html>
