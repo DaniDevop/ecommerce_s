@@ -1,6 +1,7 @@
 package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller.Users;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Controller.RestController.Helpers.UserData;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Users;
+import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.UsersRepository;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Service.Users.UserServicesImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,10 +20,12 @@ public class UsersController {
 
 
     private final UserServicesImpl userServices;
+    private final UsersRepository usersRepository;
 
-    public UsersController(UserServicesImpl userServices) {
+    public UsersController(UserServicesImpl userServices, UsersRepository usersRepository) {
         this.userServices = userServices;
 
+        this.usersRepository = usersRepository;
     }
 
     @GetMapping("/login")
@@ -55,16 +58,17 @@ public class UsersController {
 
 
     @PostMapping("/forgotPasswordUser")
-    public String forgotPasswordUsers(Model model,UserData user,RedirectAttributes attributes){
+    public String forgotPasswordUsers(@RequestParam String email,@RequestParam String password,@RequestParam String password_confirm,RedirectAttributes attributes){
 
-        Users users=this.userServices.findByEmailForgotPassword(user.getEmail(),user.getPassword(),user.getPassword_confirm());
+        Users users=this.userServices.findByEmailForgotPassword(email,  password, password_confirm);
         if(users != null){
 
             attributes.addFlashAttribute("success","Informations valide mot de passe modifie");
+            System.out.println(email);
             return  "redirect:/login";
         }
         attributes.addFlashAttribute("error","user not found or information incorect");
-        System.out.println(user.getEmail() + user.getPassword() + user.getPassword_confirm());
+
         return  "redirect:/forgotPassword";
     }
 
@@ -76,7 +80,7 @@ public class UsersController {
         return "/admin/addUser";}
 
     @PostMapping("/registerUser")
-    public String registerUsers(Model model,UserData user,RedirectAttributes attributes){
+    public String registerUsers(Model model,UserData user,@RequestParam String email,@RequestParam String password,@RequestParam String password_confirm ,RedirectAttributes attributes){
         Users users=this.userServices.findByEmail(user.getEmail());
         if(users !=null){
             attributes.addFlashAttribute("errorEmail","L email existe déjà dans la base de donées");
