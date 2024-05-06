@@ -16,9 +16,18 @@ public class Factures {
     @Column(nullable = true)
     private String date_creation;
     @Column(nullable = true)
+
     private String date_update;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Client Client;
 
+    public Client getClient() {
+        return Client;
+    }
 
+    public void setClient(Client  client) {
+        Client = client;
+    }
 
     public String getDate_creation() {
         return date_creation;

@@ -1,8 +1,11 @@
 package dn.daniel.stock.top.office.store.GestionOfficeStore.Service.Client;
 
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Client;
+import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.JwtToken;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.ClientRepository;
+import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.JwtRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,9 +18,14 @@ import java.util.Optional;
 public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtRepository jwtRepository;
 
-    public ClientServiceImpl(ClientRepository clientRepository) {
+    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder, JwtRepository jwtRepository) {
         this.clientRepository = clientRepository;
+
+        this.passwordEncoder = passwordEncoder;
+        this.jwtRepository = jwtRepository;
     }
 
     @Override
@@ -27,6 +35,7 @@ public class ClientServiceImpl implements ClientService {
         if(optionalClient.isPresent()){
             return null;
         }
+        client.setPassword(passwordEncoder.encode(client.getPassword()));
         return clientRepository.save(client);
     }
 
@@ -73,5 +82,14 @@ public class ClientServiceImpl implements ClientService {
             return  client;
         }
         return null;
+    }
+
+    @Override
+    public JwtToken createToken(Client client,JwtToken jwtToken) {
+        String token=passwordEncoder.encode("Oat_"+client.getNom());
+
+        jwtToken.setDate_expired("");
+        jwtToken.setToken(token);
+        return this.jwtRepository.save(jwtToken);
     }
 }

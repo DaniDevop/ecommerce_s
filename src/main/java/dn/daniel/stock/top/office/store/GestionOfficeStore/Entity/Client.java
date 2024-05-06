@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 
@@ -19,6 +20,16 @@ public class Client {
     private Adresse adresse;
     private String password;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    public List<JwtToken> tokenList=new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.DETACH)
+    private Collection<Commandes>commandes=new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Collection<Factures> factures=new ArrayList<>();
+
+
+
     public Client() {
     }
 
@@ -31,12 +42,6 @@ public class Client {
     }
 
     private String date_creation;
-
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.DETACH)
-    private Collection<Commandes>commandes=new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private Collection<Factures> factures=new ArrayList<>();
 
 
 

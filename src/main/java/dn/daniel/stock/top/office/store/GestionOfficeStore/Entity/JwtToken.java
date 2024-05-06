@@ -11,24 +11,27 @@ public class JwtToken {
 
     private Integer id;
     private String token;
-    private String exprired_at;
-    private String created_at;
+    private String date_expired;
 
 
     @ManyToOne
-    private Users users;
+    private Client client;
 
-    public JwtToken( String token, String exprired_at, String created_at, Users users) {
+
+
+    public JwtToken( String token, String date_expired,Client client) {
 
         this.token = token;
-        this.exprired_at = exprired_at;
-        this.created_at = created_at;
+     this.date_expired=date_expired;
 
-        this.users = users;
+        this.client = client;
     }
 
 
     public JwtToken() {
+    }
+    public JwtToken(Client client) {
+        this.client=client;
     }
 
     public Integer getId() {
@@ -47,29 +50,20 @@ public class JwtToken {
         this.token = token;
     }
 
-    public String getExprired_at() {
-        return exprired_at;
+
+    public String getDate_expired() {
+        return date_expired;
     }
 
-    public void setExprired_at(String exprired_at) {
-        this.exprired_at = exprired_at;
+    public void setDate_expired(String date_expired) {
+        this.date_expired = date_expired;
     }
 
-    public String getCreated_at() {
-        return created_at;
+    public Client getclient() {
+        return client;
     }
 
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
-    }
-
-
-
-    public Users getUsers() {
-        return users;
-    }
-
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setclient(Client client) {
+        this.client = client;
     }
 }

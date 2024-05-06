@@ -21,8 +21,6 @@ public class Users  {
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Roles>roles=new ArrayList<>();
-    @OneToMany(fetch = FetchType.LAZY)
-    private Collection<JwtToken> jwtTokens=new ArrayList<>();
 
     public Users() {
     }
@@ -75,14 +73,6 @@ public class Users  {
 
 
 
-
-    public Collection<JwtToken> getJwtTokens() {
-        return jwtTokens;
-    }
-
-    public void setJwtTokens(Collection<JwtToken> jwtTokens) {
-        this.jwtTokens = jwtTokens;
-    }
 
 
 }
