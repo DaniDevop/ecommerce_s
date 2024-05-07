@@ -33,7 +33,7 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-    @GetMapping("/client/clientAll")
+    @GetMapping("/clientAll")
     private String listeClients(Model model){
 
         model.addAttribute("commandesAll",commandesRepository.findAll());

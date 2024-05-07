@@ -43,7 +43,7 @@ public class ProduitsController {
         return "produit/produits";
     }
 
-    @PostMapping("/product/addProduit")
+    @PostMapping("/product/addProduct")
 
     public String addProduit(Model model, Produits produits,
                                 @RequestParam("categorie_id")Integer categorie_id,

@@ -126,7 +126,7 @@
                             <td th:text="${produit.categories.categorie}"></td>
                             <td th:text="${produit.designation}"></td>
                             <th th:text="${produit.prix_vente}"></th>
-                            <td  th:text="${produit.stock <-1}" ></td>
+                            <td th:text="${produit.stock }" ></td>
                             <td>
                                 <img th:if="${produit.image_first != null}" th:src="@{'/product/' + ${produit.image_first}}" alt="Image du produit 1" width="100px">
                             </td>
