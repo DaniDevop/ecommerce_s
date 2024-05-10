@@ -1,8 +1,6 @@
 package dn.daniel.stock.top.office.store.GestionOfficeStore.Service.Users;
 
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.JwtToken;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Users;
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.JwtRepository;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.UsersRepository;
 import org.apache.commons.logging.Log;
 import org.slf4j.ILoggerFactory;
@@ -18,15 +16,14 @@ import java.util.Optional;
 @Service
 public class UserServicesImpl implements UserServices {
     private final UsersRepository usersRepository;
-    private final JwtRepository jwtRepository;
+
 
     private final PasswordEncoder passwordEncoder;
 
     Logger logger = LoggerFactory.getLogger(UserServicesImpl.class);
 
-    public UserServicesImpl(UsersRepository usersRepository, JwtRepository jwtRepository, PasswordEncoder passwordEncoder) {
+    public UserServicesImpl(UsersRepository usersRepository,  PasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
-        this.jwtRepository = jwtRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -76,9 +73,5 @@ public class UserServicesImpl implements UserServices {
         return usersRepository.findAll();
     }
 
-    @Override
-    public JwtToken findByToken(String token) {
-        Optional<JwtToken> optionalUsers=this.jwtRepository.findByToken(token);
-        return optionalUsers.orElse(null);
-    }
+
 }

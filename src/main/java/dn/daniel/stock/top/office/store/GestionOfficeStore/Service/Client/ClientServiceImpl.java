@@ -1,10 +1,10 @@
 package dn.daniel.stock.top.office.store.GestionOfficeStore.Service.Client;
 
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Client;
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.JwtToken;
 import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.ClientRepository;
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.JwtRepository;
+import dn.daniel.stock.top.office.store.GestionOfficeStore.configuration.Password.PasswordEncoderClient;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,24 +18,29 @@ import java.util.Optional;
 public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtRepository jwtRepository;
 
-    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder, JwtRepository jwtRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    private final String SECRET_KEY="clientSecrete";
+    private final PasswordEncoderClient passwordEncoderClient;
+
+
+    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder, PasswordEncoderClient passwordEncoderClient) {
         this.clientRepository = clientRepository;
 
+
         this.passwordEncoder = passwordEncoder;
-        this.jwtRepository = jwtRepository;
+        this.passwordEncoderClient = passwordEncoderClient;
     }
 
     @Override
     public Client newClient(Client client){
         client.setDate_creation(LocalDate.now().toString());
-        Optional<Client> optionalClient=clientRepository.findByEmail(client.getEmail());
-        if(optionalClient.isPresent()){
-            return null;
-        }
-        client.setPassword(passwordEncoder.encode(client.getPassword()));
+
+        String password =this.passwordEncoderClient.passwordEncoder().encode(client.getPassword());
+
+        client.setToken(this.passwordEncoderClient.passwordEncoder().encode("Oat_"+SECRET_KEY+"_Date"+LocalDate.now().toString()));
+        client.setPassword(password);
         return clientRepository.save(client);
     }
 
@@ -73,23 +78,26 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client findByEmailAndPassword(String email, String password) {
+    public String findByEmailAndPassword(String email, String password) {
 
-        Optional<Client>optionalClient=clientRepository.findByNomOrEmailAndPassword(email,email,password);
-        if(optionalClient.isPresent()){
-            Client client=optionalClient.get();
 
-            return  client;
+      Optional<Client> client=clientRepository.findByNomOrEmail(email,email);
+        if(client.isPresent() && this.passwordEncoder.matches(client.get().getPassword(),password)){
+            return client.get().getToken();
         }
         return null;
     }
 
     @Override
-    public JwtToken createToken(Client client,JwtToken jwtToken) {
-        String token=passwordEncoder.encode("Oat_"+client.getNom());
+    public Client findByEmail(String email) {
+        Client optionalClient=clientRepository.findByEmail(email);
+        if(optionalClient !=null){
 
-        jwtToken.setDate_expired("");
-        jwtToken.setToken(token);
-        return this.jwtRepository.save(jwtToken);
+
+            return  optionalClient;
+        }
+        return null;
     }
+
+
 }

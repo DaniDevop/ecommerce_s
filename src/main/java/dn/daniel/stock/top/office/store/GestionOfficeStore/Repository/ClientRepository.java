@@ -9,6 +9,10 @@ public interface ClientRepository extends JpaRepository<Client,Integer> {
 
 
 
-    Optional<Client> findByNomOrEmailAndPassword(String nom,String email,String password);
-    Optional<Client> findByEmail(String email);
+    Optional<Client> findByNomOrEmail(String nom,String email);
+
+    Optional<Client> findByToken(String token);
+    Client findByEmail(String email);
+
+
 }

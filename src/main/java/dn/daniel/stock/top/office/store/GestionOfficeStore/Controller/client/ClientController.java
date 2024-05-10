@@ -1,68 +1,101 @@
-package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller.client;
+    package dn.daniel.stock.top.office.store.GestionOfficeStore.Controller.client;
 
 
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Client;
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.JwtToken;
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.ClientRepository;
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.CommandesRepository;
-import dn.daniel.stock.top.office.store.GestionOfficeStore.Service.Client.ClientServiceImpl;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-@Controller
-@RequestMapping("/client/")
-public class ClientController {
+    import com.nimbusds.jose.JOSEException;
+    import dn.daniel.stock.top.office.store.GestionOfficeStore.Entity.Client;
+    import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.ClientRepository;
+    import dn.daniel.stock.top.office.store.GestionOfficeStore.Repository.CommandesRepository;
+    import dn.daniel.stock.top.office.store.GestionOfficeStore.Service.Client.ClientServiceImpl;
+    import dn.daniel.stock.top.office.store.GestionOfficeStore.configuration.Filter.JwtClientService;
+    import dn.daniel.stock.top.office.store.GestionOfficeStore.configuration.Password.PasswordEncoderClient;
+    import org.springframework.http.HttpStatus;
+    import org.springframework.ui.Model;
+    import org.springframework.web.bind.annotation.*;
+    import java.util.HashMap;
+    import java.util.List;
+    import java.util.Map;
+    import java.util.Optional;
 
 
-    private CommandesRepository commandesRepository;
-    private ClientRepository clientRepository;
+    @RestController
+    @RequestMapping("/client/")
+    public class ClientController {
 
-    private final ClientServiceImpl clientService;
 
-    public ClientController(CommandesRepository commandesRepository, ClientRepository clientRepository, ClientServiceImpl clientService) {
-        this.commandesRepository = commandesRepository;
-        this.clientRepository = clientRepository;
-        this.clientService = clientService;
-    }
+        private CommandesRepository commandesRepository;
+        private ClientRepository clientRepository;
 
-    @GetMapping("/clientAll")
-    private String listeClients(Model model){
+        private final ClientServiceImpl clientService;
+        private final PasswordEncoderClient passwordEncoder;
+        private final JwtClientService jwtClientService;
 
-        model.addAttribute("commandesAll",commandesRepository.findAll());
-        return "commandes/commandes";
-    }
+        public ClientController(CommandesRepository commandesRepository, ClientRepository clientRepository,
 
-    @PostMapping("/create-compte")
-    public Map<String, Object> createCompte(@RequestBody Client client) {
-        Map<String, Object> response = new HashMap<>();
+                                ClientServiceImpl clientService, PasswordEncoderClient passwordEncoder, JwtClientService jwtClientService) {
+            this.commandesRepository = commandesRepository;
+            this.clientRepository = clientRepository;
 
-        Optional<Client> optionalClient = clientRepository.findByEmail(client.getEmail());
-        if (optionalClient.isPresent()) {
-            // Client with this email already exists
-            response.put("message", "L'email existe déjà dans la base de données");
-            response.put("client", optionalClient.get());
+
+            this.clientService = clientService;
+            this.passwordEncoder = passwordEncoder;
+            this.jwtClientService = jwtClientService;
         }
-            // Create the new client account
-            Client newClient = clientRepository.save(client);
-            JwtToken jwtToken =new JwtToken(client);
-            clientService.createToken(newClient,jwtToken);
-            response.put("message", "Compte créé avec succès");
-            response.put("client", jwtToken);
+
+        @GetMapping("/clientAll")
+        private List<Client> listeClients(Model model){
+
+           return clientService.getAllClients();
+        }
+
+        @PostMapping("/create-compte")
+        @ResponseStatus(HttpStatus.CREATED)
+        public Map<String, Object> createCompte(@RequestBody Client client) {
+            Map<String, Object> response = new HashMap<>();
+
+            Client optionalClient = clientRepository.findByEmail(client.getEmail());
+            if (optionalClient !=null) {
+                // Client with this email already exists
+                response.put("message", "L'email existe déjà dans la base de données");
+                response.put("client", null);
+            }
+                // Create the new client account
+            Client newClient = this.clientService.newClient(client);
 
 
-        return response;
+                response.put("message", "Compte créé avec succès");
+                response.put("client", newClient);
+
+
+            return response;
+        }
+
+        @PostMapping("/loginClient")
+        @ResponseStatus(HttpStatus.OK)
+        public Map<String,Object> login(@RequestBody ClientRequest clientRequest) throws JOSEException {
+            String username = clientRequest.getUsername();
+            String password = clientRequest.getPassword();
+            Map<String,Object> listeCLient=new HashMap<>();
+
+
+            Optional<Client> clientOptional=this.clientRepository.findByNomOrEmail(username,username);
+            if(clientOptional.isPresent() ){
+
+                Client client=clientOptional.get();
+                if(passwordEncoder.passwordEncoder().matches(password,client.getPassword())){
+                    listeCLient.put("Succès",client.getToken());
+                }
+
+
+            }else {
+                listeCLient.put("Informations incorrect",null);
+            }
+
+            return listeCLient;
+
+        }
+
+
     }
-
-
-}
 
 
 

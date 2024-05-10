@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Optional;
-import java.util.logging.Logger;
+
 
 @Controller
 public class ProduitsController {
@@ -105,6 +106,10 @@ public class ProduitsController {
                 product.setImage_third(productForm.getProductImageThird().getOriginalFilename());
                 System.out.println("Image third upload with success");
             }
+            product.setDesignation(productForm.getDesignation());
+            product.setPrix_vente(productForm.getPrix_vente());
+            product.setStock(productForm.getStock());
+            product.setDate_update(LocalDate.now().toString());
             this.produitService.updateProduit(categorie_id,fournisseur_id,product);
             redirectAttributes.addFlashAttribute("updateProductSucces", "Produit Modififer avec success");
             return "redirect:/product/detailsProduit/"+produits.getId();

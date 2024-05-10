@@ -1,6 +1,8 @@
 package dn.daniel.stock.top.office.store.GestionOfficeStore.Entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,7 +10,7 @@ import java.util.List;
 
 @Entity
 
-public class Client {
+public class Client  implements Authentication {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +21,9 @@ public class Client {
     @ManyToOne
     private Adresse adresse;
     private String password;
+    private String token;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    public List<JwtToken> tokenList=new ArrayList<>();
+
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.DETACH)
     private Collection<Commandes>commandes=new ArrayList<>();
 
@@ -111,6 +113,14 @@ public class Client {
         return adresse;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public void setAdresse(Adresse adresse) {
         this.adresse = adresse;
     }
@@ -129,5 +139,40 @@ public class Client {
 
     public void setFactures(Collection<Factures> factures) {
         this.factures = factures;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public Object getCredentials() {
+        return null;
+    }
+
+    @Override
+    public Object getDetails() {
+        return null;
+    }
+
+    @Override
+    public Object getPrincipal() {
+        return null;
+    }
+
+    @Override
+    public boolean isAuthenticated() {
+        return false;
+    }
+
+    @Override
+    public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }
