@@ -3,7 +3,33 @@
 
 <div th:replace="~{layout/header::header}"></div>
 <title>Listes des categories</title>
+<style>
 
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .form-group input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    .btn-submit {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .btn-submit:hover {
+        background-color: #0056b3;
+    }
+</style>
 <body>
 
 <!-- page-wrapper Start-->
@@ -34,15 +60,13 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="page-header-left">
-                                <form th:action="@{/categories/updateCategorie}" th:method="POST">
-
-                                    <div class="col-md-4">
-                                        <label for="validationDefault01" class="form-label">Categories</label>
-                                        <input type="text" class="form-control" id="validationDefault01" name="categorie" th:value="${categorie.categorie}" required>
+                                <form id="categoryForm" th:action="@{/categories/updateCategorie}" th:method="POST">
+                                    <div class="form-group">
+                                        <label for="categoryInput">Catégorie :</label>
+                                        <input type="text" id="categoryInput" name="categorie"  th:value="${categorie.categorie}" placeholder="Entrez la catégorie" required>
                                     </div>
                                     <input type="hidden" name="id" th:value="${categorie.id}">
-                                    <button type="button" class="btn btn-primary">Valider</button>
-
+                                    <button type="submit" class="btn-submit">Envoyer</button>
                                 </form>
                             </div>
                         </div>
